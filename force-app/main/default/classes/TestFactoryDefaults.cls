@@ -36,4 +36,13 @@ public class TestFactoryDefaults {
             return new Map<Schema.SObjectField, Object>{ Case.Subject => 'Test Case' };
         }
     }
+
+    public class LeadDefaults implements TestFactory.FieldDefaults {
+        public Map<Schema.SObjectField, Object> getFieldDefaults() {
+            return new Map<Schema.SObjectField, Object>{
+                Lead.LastName => 'Test Lead',
+                Lead.Company => 'Test  Company'
+            };
+        }
+    }
 }

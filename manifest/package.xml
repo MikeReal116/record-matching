@@ -13,5 +13,28 @@
 		<members>LeadTrigger</members>
 		<name>ApexTrigger</name>
 	</types>
+	<types>
+		<members>Lead.Account__c</members>
+		<members>LeadToAccountMatchingCriteria__mdt.Account_Field__c</members>
+		<members>LeadToAccountMatchingCriteria__mdt.Active__c</members>
+		<members>LeadToAccountMatchingCriteria__mdt.Lead_Field__c</members>
+		<members>LeadToAccountMatchingCriteria__mdt.Match_Type__c</members>
+		<members>LeadToAccountMatchingCriteria__mdt.Partial_Account_End__c</members>
+		<members>LeadToAccountMatchingCriteria__mdt.Partial_Account_Start__c</members>
+		<members>LeadToAccountMatchingCriteria__mdt.Partial_Lead_End__c</members>
+		<members>LeadToAccountMatchingCriteria__mdt.Partial_Lead_Start__c</members>
+		<members>LeadToAccountMatchingCriteria__mdt.Priority__c</members>
+		<name>CustomField</name>
+	</types>
+	<types>
+		<members>LeadToAccountMatchingCriteria__mdt</members>
+		<name>CustomObject</name>
+	</types>
+	<types>
+		<members>Account-Account Layout</members>
+		<members>Lead-Lead Layout</members>
+		<members>LeadToAccountMatchingCriteria__mdt-LeadToAccountMatchingCriteria Layout</members>
+		<name>Layout</name>
+	</types>
 	<version>60.0</version>
 </Package>

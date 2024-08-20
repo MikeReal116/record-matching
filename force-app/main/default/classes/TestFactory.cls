@@ -112,7 +112,8 @@ public class TestFactory {
     // Usually we use the Name field, but some objects don't have a name field.
     private static Map<Schema.SObjectType, Schema.SObjectField> nameFieldMap = new Map<Schema.SObjectType, Schema.SObjectField>{
         Contact.sObjectType => Contact.LastName,
-        Case.sObjectType => Case.CaseNumber //this is the autonumber field
+        Case.sObjectType => Case.CaseNumber, //this is the autonumber field
+        Lead.sObjectType => Lead.LastName
     };
 
     public class TestFactoryException extends Exception {
