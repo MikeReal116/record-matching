@@ -8,18 +8,19 @@ private with sharing class LeadAccountMatcherTest {
             lead.Company += counter++;
             lead.Website = 'www.testcompany.com';
         }
-        LeadToAccountMatchingCriteria__mdt exactMatchingCriteria = createExactMatchingCriteria();
-        LeadToAccountMatchingCriteria__mdt partialMatchingCriteria = createExactMatchingCriteria();
-        partialMatchingCriteria.Account_Field__c = 'Website';
-        partialMatchingCriteria.Lead_Field__c = 'Website';
-        LeadAccountMatcher.leadToAccountCriteria = new List<LeadToAccountMatchingCriteria__mdt>{
+        MatchingCriteria__mdt exactMatchingCriteria = createExactMatchingCriteria();
+        MatchingCriteria__mdt partialMatchingCriteria = createExactMatchingCriteria();
+        partialMatchingCriteria.Field_Two__c = 'Website';
+        partialMatchingCriteria.Field_One__c = 'Website';
+        MatcherService.matchingCriteria = new List<MatchingCriteria__mdt>{
             exactMatchingCriteria,
             partialMatchingCriteria
         };
         Map<String, Set<String>> accountFieldToExactMatchSet = new Map<String, Set<String>>();
         Map<String, Set<String>> accountFieldToPartialMatchSet = new Map<String, Set<String>>();
 
-        LeadAccountMatcher.populateMatchingFieldValues(
+        LeadAccountMatcher leadAccountMatcher = new LeadAccountMatcher();
+        leadAccountMatcher.populateMatchingFieldValues(
             newLeads,
             new Map<Id, Lead>(),
             accountFieldToExactMatchSet,
@@ -53,18 +54,19 @@ private with sharing class LeadAccountMatcherTest {
                 lead.Email = 'firstName.lastName@' + domain;
             }
         }
-        LeadToAccountMatchingCriteria__mdt exactMatchingCriteria = createExactMatchingCriteria();
-        LeadToAccountMatchingCriteria__mdt partialMatchingCriteria = createPartialMatchingCriteria();
-        partialMatchingCriteria.Account_Field__c = 'Email';
+        MatchingCriteria__mdt exactMatchingCriteria = createExactMatchingCriteria();
+        MatchingCriteria__mdt partialMatchingCriteria = createPartialMatchingCriteria();
+        partialMatchingCriteria.Field_Two__c = 'Email';
 
-        LeadAccountMatcher.leadToAccountCriteria = new List<LeadToAccountMatchingCriteria__mdt>{
+        MatcherService.matchingCriteria = new List<MatchingCriteria__mdt>{
             exactMatchingCriteria,
             partialMatchingCriteria
         };
         Map<String, Set<String>> accountFieldToExactMatchSet = new Map<String, Set<String>>();
         Map<String, Set<String>> accountFieldToPartialMatchSet = new Map<String, Set<String>>();
 
-        LeadAccountMatcher.populateMatchingFieldValues(
+        LeadAccountMatcher leadAccountMatcher = new LeadAccountMatcher();
+        leadAccountMatcher.populateMatchingFieldValues(
             newLeads,
             new Map<Id, Lead>(),
             accountFieldToExactMatchSet,
@@ -117,25 +119,23 @@ private with sharing class LeadAccountMatcherTest {
             leadCounter++;
         }
 
-        LeadToAccountMatchingCriteria__mdt exactMatchingCriteria = createExactMatchingCriteria();
-        LeadToAccountMatchingCriteria__mdt emailCriteria = createPartialMatchingCriteria();
+        MatchingCriteria__mdt exactMatchingCriteria = createExactMatchingCriteria();
+        MatchingCriteria__mdt emailCriteria = createPartialMatchingCriteria();
 
-        LeadAccountMatcher.leadToAccountCriteria = new List<LeadToAccountMatchingCriteria__mdt>{
-            exactMatchingCriteria,
-            emailCriteria
-        };
+        MatcherService.matchingCriteria = new List<MatchingCriteria__mdt>{ exactMatchingCriteria, emailCriteria };
 
         Map<String, Set<String>> accountFieldToExactMatchSet = new Map<String, Set<String>>();
         Map<String, Set<String>> accountFieldToPartialMatchSet = new Map<String, Set<String>>();
 
-        LeadAccountMatcher.populateMatchingFieldValues(
+        LeadAccountMatcher leadAccountMatcher = new LeadAccountMatcher();
+        leadAccountMatcher.populateMatchingFieldValues(
             leads,
             new Map<Id, Lead>(),
             accountFieldToExactMatchSet,
             accountFieldToPartialMatchSet
         );
 
-        List<Account> potentialAccounts = LeadAccountMatcher.queryPotentialAccounts(
+        List<Account> potentialAccounts = leadAccountMatcher.queryPotentialTargetRecords(
             accountFieldToExactMatchSet,
             accountFieldToPartialMatchSet
         );
@@ -185,15 +185,16 @@ private with sharing class LeadAccountMatcherTest {
             leadCounter++;
         }
 
-        LeadToAccountMatchingCriteria__mdt exactMatchingCriteria = createExactMatchingCriteria();
-        LeadToAccountMatchingCriteria__mdt partialMatchingCriteria = createPartialMatchingCriteria();
+        MatchingCriteria__mdt exactMatchingCriteria = createExactMatchingCriteria();
+        MatchingCriteria__mdt partialMatchingCriteria = createPartialMatchingCriteria();
 
-        LeadAccountMatcher.leadToAccountCriteria = new List<LeadToAccountMatchingCriteria__mdt>{
+        MatcherService.matchingCriteria = new List<MatchingCriteria__mdt>{
             exactMatchingCriteria,
             partialMatchingCriteria
         };
 
-        LeadAccountMatcher.matchLeadsToAccounts(leads, new Map<Id, Lead>());
+        LeadAccountMatcher leadAccountMatcher = new LeadAccountMatcher();
+        leadAccountMatcher.matchRecordsToTarget(leads, new Map<Id, Lead>());
 
         for (Lead lead : leads) {
             if (lead.Company == accountNameGlobal) {
@@ -216,25 +217,27 @@ private with sharing class LeadAccountMatcherTest {
         return TestFactory.createSObjectList(new Lead(), numberOfLeads);
     }
 
-    private static LeadToAccountMatchingCriteria__mdt createExactMatchingCriteria() {
-        return new LeadToAccountMatchingCriteria__mdt(
+    private static MatchingCriteria__mdt createExactMatchingCriteria() {
+        return new MatchingCriteria__mdt(
             Match_Type__c = 'Exact',
-            Account_Field__c = 'Name',
-            Lead_Field__c = 'Company',
+            Field_Two__c = 'Name',
+            Field_One__c = 'Company',
             Priority__c = 1,
-            Active__c = true
+            Active__c = true,
+            Matching_Object__c = 'Account'
         );
     }
 
-    private static LeadToAccountMatchingCriteria__mdt createPartialMatchingCriteria() {
-        return new LeadToAccountMatchingCriteria__mdt(
-            Account_Field__c = 'Website',
-            Lead_Field__c = 'Email',
+    private static MatchingCriteria__mdt createPartialMatchingCriteria() {
+        return new MatchingCriteria__mdt(
+            Field_Two__c = 'Website',
+            Field_One__c = 'Email',
             Match_Type__c = 'Partial',
             Priority__c = 2,
-            Partial_Lead_Start__c = '@',
-            Partial_Account_Start__c = 'www.',
-            Partial_Account_End__c = '/'
+            Partial_Field_One_Start__c = '@',
+            Partial_Field_Two_Start__c = 'www.',
+            Partial_Field_Two_End__c = '/',
+            Matching_Object__c = 'Account'
         );
     }
 }

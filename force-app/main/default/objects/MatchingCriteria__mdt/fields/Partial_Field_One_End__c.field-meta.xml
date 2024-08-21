@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Partial_Lead_Start__c</fullName>
-    <description>Can be used when the Match Type is Partial to specify the where the matching should start</description>
+    <fullName>Partial_Field_One_End__c</fullName>
+    <description>The end text where matching should end for the field to be compared. Used for partial matching</description>
     <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
-    <label>Partial Lead Start</label>
+    <label>Partial Field One End</label>
     <length>255</length>
     <required>false</required>
     <type>Text</type>

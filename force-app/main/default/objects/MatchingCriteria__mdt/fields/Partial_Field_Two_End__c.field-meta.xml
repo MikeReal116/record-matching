@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Account_Field__c</fullName>
-    <description>The target Account field</description>
+    <fullName>Partial_Field_Two_End__c</fullName>
+    <description>The end text where matching should end for the field we are comparing to. Used for partial matching</description>
     <externalId>false</externalId>
     <fieldManageability>DeveloperControlled</fieldManageability>
-    <label>Account Field</label>
+    <label>Partial Field Two End</label>
     <length>255</length>
-    <required>true</required>
+    <required>false</required>
     <type>Text</type>
     <unique>false</unique>
 </CustomField>
