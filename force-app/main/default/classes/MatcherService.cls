@@ -70,6 +70,8 @@ public abstract with sharing class MatcherService {
                             criteria.Partial_Field_Two_Start__c,
                             criteria.Partial_Field_Two_End__c
                         );
+                        fieldValueToRecordMap.get(criteria.Field_Two__c)
+                            .put(generatePartialMatchKey(fieldValue), record);
                     }
                     fieldValueToRecordMap.get(criteria.Field_Two__c).put(fieldValue.trim().toLowerCase(), record);
                 }
@@ -122,7 +124,7 @@ public abstract with sharing class MatcherService {
         Map<String, Set<String>> fieldToPartialMatchSet
     ) {
         for (SObject record : newRecords) {
-            SObject oldRecord = oldRecordMap.get(record.Id);
+            SObject oldRecord = oldRecordMap == null ? null : oldRecordMap.get(record.Id);
             for (MatchingCriteria__mdt criteria : getActiveMatchingCriteria()) {
                 String fieldValue = (String) record.get(criteria.Field_One__c);
                 String oldFieldValue = oldRecord == null ? null : (String) oldRecord.get(criteria.Field_One__c);
@@ -186,5 +188,13 @@ public abstract with sharing class MatcherService {
             }
         }
         return value;
+    }
+
+    protected String generatePartialMatchKey(String fieldValue) {
+        if (String.isNotBlank(fieldValue)) {
+            String trimmedValue = fieldValue.trim().toLowerCase();
+            return (trimmedValue.length() > 5 ? trimmedValue.substring(0, 5) : trimmedValue);
+        }
+        return null;
     }
 }

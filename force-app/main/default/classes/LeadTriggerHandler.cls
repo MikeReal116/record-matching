@@ -12,8 +12,12 @@ public with sharing class LeadTriggerHandler extends TriggerHandler {
     }
 
     public override void beforeInsert() {
+        LeadAccountMatcher matcher = new LeadAccountMatcher();
+        matcher.matchRecordsToTarget(newLeads, null);
     }
 
     public override void beforeUpdate() {
+        LeadAccountMatcher matcher = new LeadAccountMatcher();
+        matcher.matchRecordsToTarget(newLeads, oldLeadsMap);
     }
 }

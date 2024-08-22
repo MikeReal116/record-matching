@@ -209,6 +209,61 @@ private with sharing class LeadAccountMatcherTest {
         }
     }
 
+    @IsTest
+    private static void it_should_populate_partial_matching_account() {
+        List<Account> accounts = createAccountRecords(200);
+        String accountNameGlobal = 'Global Corp';
+        String accountWebsiteGlobal = 'www.globalcorp.com';
+        Integer counter = 1;
+        for (Account account : accounts) {
+            account.Website = 'www.testaccount.com';
+            if (counter <= 10) {
+                account.Name = accountNameGlobal;
+                account.Website = accountWebsiteGlobal;
+            }
+            counter++;
+        }
+
+        insert accounts;
+
+        List<Lead> leads = createLeadRecords(200);
+        Integer leadCounter = 1;
+        for (Lead lead : leads) {
+            lead.Company += leadCounter;
+            lead.Email = 'firstName.LastName@testcompany.com';
+            if (leadCounter <= 10) {
+                lead.Company = 'Global';
+            }
+            leadCounter++;
+        }
+
+        MatchingCriteria__mdt partialMatchingCriteria = new MatchingCriteria__mdt(
+            Match_Type__c = 'Partial',
+            Field_Two__c = 'Name',
+            Field_One__c = 'Company',
+            Priority__c = 2,
+            Active__c = true,
+            Matching_Object__c = 'Account'
+        );
+
+        MatcherService.matchingCriteria = new List<MatchingCriteria__mdt>{ partialMatchingCriteria };
+
+        LeadAccountMatcher leadAccountMatcher = new LeadAccountMatcher();
+        leadAccountMatcher.matchRecordsToTarget(leads, new Map<Id, Lead>());
+
+        Integer globalCorpCounter = 0;
+        for (Lead lead : leads) {
+            if (lead.Company == accountNameGlobal) {
+                System.Assert.isTrue(lead.Account__c != null, 'Global Corp should have an account');
+                System.Assert.isTrue(lead.Website == accountWebsiteGlobal, 'Website should be ' + accountWebsiteGlobal);
+                globalCorpCounter++;
+            } else {
+                System.Assert.isTrue(lead.Account__c == null, 'Lead should not have an account');
+            }
+        }
+        System.Assert.isTrue(globalCorpCounter == 10, 'Should have 10 Global Corp leads');
+    }
+
     private static List<Account> createAccountRecords(Integer numberOfAccounts) {
         return TestFactory.createSObjectList(new Account(), numberOfAccounts);
     }

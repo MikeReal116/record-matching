@@ -23,8 +23,15 @@ public with sharing class LeadAccountMatcher extends MatcherService {
                     if (fieldValueToRecordMap.containsKey(criteria.Field_Two__c)) {
                         Map<String, SObject> accountValueToAccount = fieldValueToRecordMap.get(criteria.Field_Two__c);
                         leadFieldValue = leadFieldValue.trim().toLowerCase();
+                        String partialMatchKey = generatePartialMatchKey(leadFieldValue);
                         if (accountValueToAccount.containsKey(leadFieldValue)) {
                             Account account = (Account) accountValueToAccount.get(leadFieldValue);
+                            lead.Account__c = account.Id;
+                            lead.Company = account.Name;
+                            lead.Website = account.Website;
+                            break;
+                        } else if (accountValueToAccount.containsKey(partialMatchKey)) {
+                            Account account = (Account) accountValueToAccount.get(partialMatchKey);
                             lead.Account__c = account.Id;
                             lead.Company = account.Name;
                             lead.Website = account.Website;
