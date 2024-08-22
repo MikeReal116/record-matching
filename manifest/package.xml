@@ -31,6 +31,15 @@
 		<name>CustomField</name>
 	</types>
 	<types>
+		<members>MatchingCriteria.LeadAccountMatchingCompanyToName</members>
+		<members>MatchingCriteria.LeadAccountMatchingCompanyToNamePartial</members>
+		<members>MatchingCriteria.LeadAccountMatchingDomain</members>
+		<members>MatchingCriteria.LeadAccountMatchingDomainHTTP</members>
+		<members>MatchingCriteria.LeadAccountMatchingDomainHTTPS</members>
+		<members>MatchingCriteria.LeadAccountMatchingDomainWWW</members>
+		<name>CustomMetadata</name>
+	</types>
+	<types>
 		<members>MatchingCriteria__mdt</members>
 		<name>CustomObject</name>
 	</types>
@@ -40,5 +49,9 @@
 		<members>MatchingCriteria__mdt-LeadToAccountMatchingCriteria Layout</members>
 		<name>Layout</name>
 	</types>
+    <types>
+        <members>PublicFolder/Leads_Report_Sj3</members>
+        <name>Report</name>
+    </types>
 	<version>60.0</version>
 </Package>
