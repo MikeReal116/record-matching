@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
 	<types>
 		<members>LeadAccountMatcher</members>
@@ -46,12 +46,12 @@
 	<types>
 		<members>Account-Account Layout</members>
 		<members>Lead-Lead Layout</members>
-		<members>MatchingCriteria__mdt-LeadToAccountMatchingCriteria Layout</members>
+		<members>MatchingCriteria__mdt-MatchingCriteria Layout</members>
 		<name>Layout</name>
 	</types>
-    <types>
-        <members>PublicFolder/Leads_Report_Sj3</members>
-        <name>Report</name>
-    </types>
+	<types>
+		<members>PublicFolder/Leads_Report_Sj3</members>
+		<name>Report</name>
+	</types>
 	<version>60.0</version>
 </Package>
